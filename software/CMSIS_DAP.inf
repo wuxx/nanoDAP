@@ -1,0 +1,62 @@
+[Version]
+Signature="$Windows NT$"
+Class=Ports
+ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
+Provider=%CMSISDAP%
+DriverVer=11/22/2011,5.2.0.0
+; CatalogFile.NTx86=cmsis-dap_x86.cat
+; CatalogFile.NTAMD64=cmsis-dap_amd64.cat
+
+[Manufacturer]
+%CMSISDAP%=DeviceList,ntamd64
+
+[DeviceList]
+%DESCRIPTION%=CMSISDAPUSB, USB\VID_C251&PID_F001
+%COMPOSITE0% =CMSISDAPUSB, USB\VID_C251&PID_F001&MI_00
+
+[DeviceList.ntamd64]
+%DESCRIPTION%=CMSISDAPUSB, USB\VID_C251&PID_F001
+%COMPOSITE0% =CMSISDAPUSB, USB\VID_C251&PID_F001&MI_00
+
+;------------------------------------------------------------------------------
+;  Installation
+;------------------------------------------------------------------------------
+
+[SourceDisksFiles]
+
+[SourceDisksNames]
+
+[DestinationDirs]
+FakeModemCopyFileSection=12
+DefaultDestDir=12
+
+[CMSISDAPUSB]
+include=mdmcpq.inf
+CopyFiles=FakeModemCopyFileSection
+AddReg=CMSISDAPUSB.AddReg
+
+[CMSISDAPUSB.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,usbser.sys
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[CMSISDAPUSB.Services]
+AddService=usbser, 0x00000002, DriverService
+
+[DriverService]
+DisplayName=%DRIVER.SVC%
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%12%\usbser.sys
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+CMSISDAP	= "X893 ARM"
+DRIVER.SVC	= "CMSIS-DAP Driver"
+DESCRIPTION	= "CMSIS-DAP CDC"
+COMPOSITE0	= "CMSIS-DAP CDC"
+
