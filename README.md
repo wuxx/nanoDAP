@@ -40,7 +40,7 @@ https://blog.csdn.net/zjy900507/article/details/79789671
 * 焊接USB和2.54插针时，注意尽量摆放平整，和PCB平面对齐，避免歪斜。
 #### 自己动手做仿真器 之 nanoDAP 测试 ####
 
-#### 自己动手做CPU 之 nanoDAP 后记 ####
+#### 自己动手做仿真器 之 nanoDAP 后记 ####
 
 reference:
 [nanoDAP套件](https://item.taobao.com/item.htm?spm=a230r.1.14.216.72533c3etELOzK&id=578885646940&ns=1&abbucket=2#detail)  
