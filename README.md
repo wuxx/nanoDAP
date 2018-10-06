@@ -1,10 +1,11 @@
-* [自己动手做仿真器 之 nanoDAP 前言](#) 
-* [自己动手做仿真器 之 nanoDAP 原理分析0-硬件](#)
-* [自己动手做仿真器 之 nanoDAP 原理分析1-软件](#)
-* [自己动手做仿真器 之 nanoDAP 原理分析2-协议](#)
-* [自己动手做仿真器 之 nanoDAP PCB及元器件](#)
-* [自己动手做仿真器 之 nanoDAP 焊接](#)
-* [自己动手做CPU 之 nanoDAP 后记](#)
+* [自己动手做仿真器 之 nanoDAP 前言](#自己动手做仿真器-之-nanodap-前言) 
+* [自己动手做仿真器 之 nanoDAP 原理分析0-硬件](#自己动手做仿真器-之-nanodap-原理分析0-硬件)
+* [自己动手做仿真器 之 nanoDAP 原理分析1-软件](#自己动手做仿真器-之-nanodap-原理分析1-软件)
+* [自己动手做仿真器 之 nanoDAP 原理分析2-协议](#自己动手做仿真器-之-nanodap-原理分析2-协议)
+* [自己动手做仿真器 之 nanoDAP PCB及元器件](#自己动手做仿真器-之-nanodap-pcb及元器件)
+* [自己动手做仿真器 之 nanoDAP 焊接](#自己动手做仿真器-之-nanodap-焊接)
+* [自己动手做仿真器 之 nanoDAP 测试](#自己动手做仿真器-之-nanodap-测试)
+* [自己动手做CPU 之 nanoDAP 后记](#自己动手做cpu-之-nanodap-后记)
  
 #### 自己动手做仿真器 之 nanoDAP 前言 ####
 - 仿真器原理
@@ -37,7 +38,6 @@ https://blog.csdn.net/zjy900507/article/details/79789671
 #### 自己动手做仿真器 之 nanoDAP 测试 ####
 
 #### 自己动手做CPU 之 nanoDAP 后记 ####
-
 
 reference:
 [nanoDAP套件](https://item.taobao.com/item.htm?spm=a230r.1.14.216.72533c3etELOzK&id=578885646940&ns=1&abbucket=2#detail)  
