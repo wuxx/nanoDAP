@@ -5,7 +5,7 @@
 * [自己动手做仿真器 之 nanoDAP PCB及元器件](#自己动手做仿真器-之-nanodap-pcb及元器件)
 * [自己动手做仿真器 之 nanoDAP 焊接](#自己动手做仿真器-之-nanodap-焊接)
 * [自己动手做仿真器 之 nanoDAP 测试](#自己动手做仿真器-之-nanodap-测试)
-* [自己动手做CPU 之 nanoDAP 后记](#自己动手做cpu-之-nanodap-后记)
+* [自己动手做仿真器 之 nanoDAP 后记](#自己动手做cpu-之-nanodap-后记)
  
 #### 自己动手做仿真器 之 nanoDAP 前言 ####
 - 仿真器原理
