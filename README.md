@@ -11,6 +11,9 @@
 - 仿真器原理
 - 当前流行的几种仿真器 (jlink stlink ulink cmsis-dap)
 - nanoDAP
+![nanoDAP1](https://github.com/wuxx/nanoDAP/blob/master/doc/nanoDAP1.jpg)
+![nanoDAP1](https://github.com/wuxx/nanoDAP/blob/master/doc/nanoDAP2.jpg)
+
 #### 自己动手做仿真器 之 nanoDAP 原理分析0-硬件 ####
 - cpu
 - osc
