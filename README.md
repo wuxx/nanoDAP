@@ -42,7 +42,8 @@ https://blog.csdn.net/zjy900507/article/details/79789671
 
 #### 自己动手做仿真器 之 nanoDAP 后记 ####
 
-reference:
+reference:  
+[bilibili视频教程合集](https://www.bilibili.com/video/av33323302/?p=1)  
 [nanoDAP套件](https://item.taobao.com/item.htm?spm=a230r.1.14.216.72533c3etELOzK&id=578885646940&ns=1&abbucket=2#detail)  
 https://github.com/ARMmbed/DAPLink  
 https://github.com/blacksphere/blackmagic  
