@@ -1,3 +1,6 @@
 [submodule "software/STM32F103C8T6_CMSIS-DAP_SWO"]
 	path = software/STM32F103C8T6_CMSIS-DAP_SWO
 	url = https://github.com/wuxx/STM32F103C8T6_CMSIS-DAP_SWO.git
+[submodule "software/DAPLink"]
+	path = software/DAPLink
+	url = https://github.com/wuxx/DAPLink.git
