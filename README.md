@@ -27,7 +27,7 @@
 - jtag  
 https://www.fpga4fun.com/JTAG.html
 - swd  
-Programming Internal Flash Over the Serial Wire Debug Interface
+Programming Internal Flash Over the Serial Wire Debug Interface  
 http://markdingst.blogspot.com/2014/03/programming-internal-sram-over-swd.html  
 https://github.com/MarkDing/swd_programing_sram
 - uart  
