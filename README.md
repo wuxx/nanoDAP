@@ -28,11 +28,11 @@
 https://www.fpga4fun.com/JTAG.html
 - swd  
 Programming Internal Flash Over the Serial Wire Debug Interface
-http://markdingst.blogspot.com/2014/03/programming-internal-sram-over-swd.html
+http://markdingst.blogspot.com/2014/03/programming-internal-sram-over-swd.html  
 https://github.com/MarkDing/swd_programing_sram
 - uart  
-https://www.fpga4fun.com/SerialInterface1.html
-https://blog.csdn.net/zjy900507/article/details/79789671
+https://www.fpga4fun.com/SerialInterface1.html  
+https://blog.csdn.net/zjy900507/article/details/79789671  
 #### 自己动手做仿真器 之 nanoDAP PCB及元器件 ####
 #### 自己动手做仿真器 之 nanoDAP 焊接 ####
 * 先焊接贴片元件，再焊接直插元件
