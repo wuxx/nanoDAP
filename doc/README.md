@@ -10,7 +10,7 @@
     * [拖拽烧录](#拖拽烧录)
     * [固件升级](#固件升级)
 * [FAQ](#faq)
-
+    * [在win7系统下会提示无串口驱动，应该如何安装？](#Q: 在win7系统下会提示无串口驱动，应该如何安装？)
 # 产品介绍
 CMSIS-DAP/DAPLink 仿真器是MuseLab推出硬件软件均开源的仿真器，相比当前市面上流行的jlink/st-link，烧录速度快，不丢固件，无版权风险，功能丰富，价格低廉，外观简洁精致，能较好的满足电子工程师进行日常的开发调试下载需求。
 ![screenshot](https://github.com/wuxx/nanoDAP/blob/master/doc/nanoDAP2.jpg)
@@ -60,4 +60,6 @@ DAPLink 实现了一个bootloader并且提供了U盘功能，这使得固件升�
 4. 将新的固件拖动到MAINTAIN U盘中，即可自动完成固件升级。
 
 # FAQ
+##### Q: 在win7系统下会提示无串口驱动，应该如何安装？  
+##### A: 在仓库的software/windows7_serial_driver/ 目录下有CMSIS-DAP.inf，请尝试安装此驱动，大部分情况下可以正常安装使用，若仍然无法安装，请尝试目录下的另一驱动windows7_serial_driver.rar，根据压缩包里的指导进行操作即可。   
 有任何问题或者建议，请在本仓库的[Issues](https://github.com/wuxx/nanoDAP/issues)页面中提出，我们会持续跟进解决。
