@@ -44,7 +44,8 @@ https://blog.csdn.net/zjy900507/article/details/79789671
 
 reference:  
 [bilibili视频教程合集](https://www.bilibili.com/video/av33323302/?p=1)  
-[nanoDAP套件](https://item.taobao.com/item.htm?spm=a1z10.1-c-s.w4004-12590273744.22.507d20f8u9W5KD&id=583995116271)  
+[nanoDAP套件](https://item.taobao.com/item.htm?spm=a230r.1.14.56.2d506b1buyvIs7&id=586425846353&ns=1&abbucket=12#detail)  
+[nanoDAP用户手册](https://github.com/wuxx/nanoDAP/blob/master/doc/README.md)  
 https://github.com/ARMmbed/DAPLink  
 https://github.com/blacksphere/blackmagic  
 https://github.com/ntfreak/openocd
