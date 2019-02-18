@@ -11,8 +11,8 @@
     * [固件升级](#固件升级)
 * [FAQ](#faq)
     * [在win7系统下会提示无串口驱动，应该如何安装？](#q-在win7系统下会提示无串口驱动应该如何安装)
-    * [烧录失败，提示 RDDI-DAP ERROR，应该如何解决？](#q-烧录失败提示 RDDI-DAP ERROR应该如何解决)
-    * [无法检测到目标，提示communication failure，应该如何解决？](#q-无法检测到目标提示communication failure应该如何解决)
+    * [烧录失败，提示 RDDI-DAP ERROR，应该如何解决？](#q-烧录失败提示-rddi-dap-error应该如何解决)
+    * [无法检测到目标，提示communication failure，应该如何解决？](q-无法检测到目标提示communication-failure应该如何解决)
 
 # 产品介绍
 CMSIS-DAP/DAPLink 仿真器是MuseLab推出硬件软件均开源的仿真器，相比当前市面上流行的jlink/st-link，烧录速度快，不丢固件，无版权风险，功能丰富，价格低廉，外观简洁精致，能较好的满足电子工程师进行日常的开发调试下载需求。
