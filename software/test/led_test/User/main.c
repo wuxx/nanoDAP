@@ -57,7 +57,7 @@ int main(void)
 		delay_ms(100);
 
 		gpio_off();
-		delay_ms(100);
+		delay_ms(10);
 	}
 
 	return 0;
