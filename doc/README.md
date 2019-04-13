@@ -13,8 +13,8 @@
     * [在win7系统下会提示无串口驱动，应该如何安装？](#q-在win7系统下会提示无串口驱动应该如何安装)
     * [烧录失败，提示 RDDI-DAP ERROR，应该如何解决？](#q-烧录失败提示-rddi-dap-error应该如何解决)
     * [无法检测到目标，提示communication failure，应该如何解决？](#q-无法检测到目标提示communication-failure应该如何解决)
-    * [CMSIS-DAP/DAPLink目前支持哪些芯片的调试烧录？](#q-CMSIS-DAP/DAPLink目前支持哪些芯片的调试烧录)
-    * [DAPLink目前支持哪些芯片的U盘拖拽烧录？](#q-dapLink目前支持哪些芯片的u盘拖拽烧录)
+    * [CMSIS-DAP/DAPLink目前支持哪些芯片的调试烧录？](#q-cmsis-dapdaplink目前支持哪些芯片的调试烧录)
+    * [DAPLink目前支持哪些芯片的U盘拖拽烧录？](#q-daplink目前支持哪些芯片的u盘拖拽烧录)
 
 # 产品介绍
 CMSIS-DAP/DAPLink 仿真器是MuseLab推出硬件软件均开源的仿真器，相比当前市面上流行的jlink/st-link，烧录速度快，不丢固件，无版权风险，功能丰富，价格低廉，外观简洁精致，能较好的满足电子工程师进行日常的开发调试下载需求。
@@ -83,6 +83,6 @@ DAPLink 实现了一个bootloader并且提供了U盘功能，这使得固件升�
 - stm32f429zi  
 - stm32f746zg  
 - stm32l476rg  
-您可以自行编译固件，或者从本仓库的firmware目录下直接获取即可。
+您可以自行编译固件，或者从本仓库的firmware目录下直接获取即可，假若您有自己的芯片平台需要支持拖拽烧录，可以参考目前的代码作修改。
 
 有任何问题或者建议，请在本仓库的[Issues](https://github.com/wuxx/nanoDAP/issues)页面中提出，我们会持续跟进解决。
