@@ -66,7 +66,7 @@ DAPLink 实现了一个bootloader并且提供了U盘功能，这使得固件升�
 
 # FAQ
 ### Q: 在win7系统下会提示无串口驱动，应该如何安装？  
-在仓库的software/windows7_serial_driver/ 目录下有CMSIS-DAP.inf，请尝试安装此驱动，大部分情况下可以正常安装使用，若仍然无法安装，请尝试目录下的另一驱动windows7_serial_driver.rar，根据压缩包里的指导进行操作即可。   
+在本github仓库的driver/windows7_serial_driver/ (https://github.com/wuxx/nanoDAP/tree/master/driver/windows7_serial_driver) 目录下有CMSIS-DAP.inf，请尝试安装此驱动，大部分情况下可以正常安装使用，若仍然无法安装，请尝试目录下的另一驱动windows7_serial_driver.rar，根据压缩包里的指导进行操作即可。   
 ### Q: 烧录失败，提示 RDDI-DAP ERROR，应该如何解决？
 主要是杜邦线的问题，请尝试换短一些的杜邦线，或者把紧密连在一起的杜邦线拉开，一般即可正常解决。
 ### Q: 无法检测到目标，提示communication failure，应该如何解决？
@@ -84,5 +84,9 @@ DAPLink 实现了一个bootloader并且提供了U盘功能，这使得固件升�
 - stm32f746zg  
 - stm32l476rg  
 您可以自行编译固件，或者从本仓库的firmware目录下直接获取即可，假若您有自己的芯片平台需要支持拖拽烧录，可以参考目前的代码作修改。
+
+### Q: 在linux下可以使用DAP仿真器进行调试吗？
+ linux下可以使用openocd配合DAP仿真器进行调试，openocd是目前全世界最流行，最强大的开源调试器上位机，由于openocd是跨平台的，你也可以在windows下使用openocd，通过编写适当的配置脚本，可以实现对芯片的调试、烧录等操作。由于涉及内容较多，更多说明请读者自行搜索，或者留言咨询。  
+
 
 有任何问题或者建议，请在本仓库的[Issues](https://github.com/wuxx/nanoDAP/issues)页面中提出，我们会持续跟进解决。
