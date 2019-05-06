@@ -15,7 +15,8 @@
     * [无法检测到目标，提示communication failure，应该如何解决？](#q-无法检测到目标提示communication-failure应该如何解决)
     * [CMSIS-DAP/DAPLink目前支持哪些芯片的调试烧录？](#q-cmsis-dapdaplink目前支持哪些芯片的调试烧录)
     * [DAPLink目前支持哪些芯片的U盘拖拽烧录？](#q-daplink目前支持哪些芯片的u盘拖拽烧录)
-
+	* [在Linux下能否使用dap仿真器进行调试？](#q-在linux下可以使用dap仿真器进行调试吗)
+	
 # 产品介绍
 CMSIS-DAP/DAPLink 仿真器是MuseLab推出硬件软件均开源的仿真器，相比当前市面上流行的jlink/st-link，烧录速度快，不丢固件，无版权风险，功能丰富，价格低廉，外观简洁精致，能较好的满足电子工程师进行日常的开发调试下载需求。
 ![screenshot](https://github.com/wuxx/nanoDAP/blob/master/doc/nanoDAP2.jpg)
