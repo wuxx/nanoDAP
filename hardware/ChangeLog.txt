@@ -1,0 +1,10 @@
+V1.0
+支持CMSIS-DAP
+
+V2.0
+此版本开始同一块PCB即可同时支持CMSIS-DAP和DAPLink。
+增加对DAPLink的支持，为兼容官方社区的DAPLink 修改了IO配置。
+
+V2.1
+少量用户反馈DAPLink 在win7 DAPLink无法枚举成功，USB D+上增加GPIO进行控制上拉。
+对于CMSIS-DAP则使用0欧电阻直接上拉。
