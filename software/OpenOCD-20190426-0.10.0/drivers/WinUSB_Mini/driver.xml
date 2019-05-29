@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<ArrayOfUniversalUsbDriver xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <UniversalUsbDriver>
+    <UniversalDriverName>WinUSB</UniversalDriverName>
+	<PrimaryInfFile>winusb_device.inf</PrimaryInfFile>
+	<UniqueDriverId>com.sysprogs.libusb.mini</UniqueDriverId>
+  </UniversalUsbDriver>
+</ArrayOfUniversalUsbDriver>

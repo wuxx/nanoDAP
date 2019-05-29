@@ -1,0 +1,113 @@
+;-------------------------------------------------------------------------
+;
+; XDS110 USB driver installation file. 
+;
+; Copyright (c) 2014-2016 Texas Instruments Incorporated. 
+; All rights reserved.
+; 
+;-------------------------------------------------------------------------
+
+[Version]
+Signature   = "$Windows NT$"
+Class       = TI_Debug_Probe
+ClassGuid   = {8E84F6AE-7786-4c95-A48A-14CF3B92C002}
+Provider    = %MFGNAME%
+CatalogFile = xds110_debug.cat
+DriverVer   = 04/05/2016,1.7.0.0
+
+; ================== Class section ===================
+
+[ClassInstall32]
+AddReg = ClassInstall_AddReg
+
+[ClassInstall_AddReg]
+HKR,,,,"%TI_Debug_Probe_Name%"
+HKR,,Icon,,-1
+
+; ========== Manufacturer/Models sections ===========
+
+[Manufacturer]
+%MFGNAME% = XDS110Device,NTx86,NTamd64
+
+[XDS110Device.NTx86]
+%DESCRIPTION_1% = USB_Install,USB\VID_0451&PID_BEF1&MI_00
+%DESCRIPTION_0% = USB_Install,USB\VID_0451&PID_BEF2&MI_02
+%DESCRIPTION_1% = USB_Install,USB\VID_0451&PID_BEF2&MI_03
+%DESCRIPTION_0% = USB_Install,USB\VID_0451&PID_BEF3&MI_02
+%DESCRIPTION_2% = USB_Install,USB\VID_0451&PID_BEF3&MI_06
+
+[XDS110Device.NTamd64]
+%DESCRIPTION_1% = USB_Install,USB\VID_0451&PID_BEF1&MI_00
+%DESCRIPTION_0% = USB_Install,USB\VID_0451&PID_BEF2&MI_02
+%DESCRIPTION_1% = USB_Install,USB\VID_0451&PID_BEF2&MI_03
+%DESCRIPTION_0% = USB_Install,USB\VID_0451&PID_BEF3&MI_02
+%DESCRIPTION_2% = USB_Install,USB\VID_0451&PID_BEF3&MI_06
+
+; =================== Installation ===================
+
+[USB_Install]
+Include = winusb.inf
+Needs   = WINUSB.NT
+
+[USB_Install.Services]
+Include    = winusb.inf
+AddService = WinUSB,0x00000002,WinUSB_ServiceInstall
+
+[WinUSB_ServiceInstall]
+DisplayName   = %WinUSB_SvcDesc%
+ServiceType   = 1
+StartType     = 3
+ErrorControl  = 1
+ServiceBinary = %12%\WinUSB.sys
+
+[USB_Install.Wdf]
+KmdfService = WINUSB, WinUsb_Install
+
+[WinUSB_Install]
+KmdfLibraryVersion = 1.9
+
+[USB_Install.HW]
+AddReg = XDS110_AddReg
+
+[XDS110_AddReg]
+HKR,,DeviceInterfaceGUIDs,0x10000,"{70cd8e5b-1a46-4418-a1a5-4489f4b4aa79}"
+
+[USB_Install.CoInstallers]
+AddReg    = CoInstallers_AddReg
+CopyFiles = CoInstallers_CopyFiles
+
+[CoInstallers_AddReg]
+HKR,,CoInstallers32,0x00010000,"WdfCoInstaller01009.dll,WdfCoInstaller","WinUSBCoInstaller2.dll"
+
+[CoInstallers_CopyFiles]
+WinUSBCoInstaller2.dll
+WdfCoInstaller01009.dll
+
+[DestinationDirs]
+DefaultDestDir         = 12
+CoInstallers_CopyFiles = 11
+
+; ================= Source Media Section =====================
+
+[SourceDisksNames]
+1 = %DISKNAME%,,,\i386
+2 = %DISKNAME%,,,\x64
+
+[SourceDisksFiles.x86]
+WinUSBCoInstaller2.dll  = 1
+WdfCoInstaller01009.dll = 1
+
+[SourceDisksFiles.amd64]
+WinUSBCoInstaller2.dll  = 2
+WdfCoInstaller01009.dll = 2
+
+; =================== Strings ===================
+
+[Strings]
+MFGNAME             = "Texas Instruments Incorporated"
+DISKNAME            = "XDS110 Debug Probe"
+DESCRIPTION_0       = "XDS110 Class Debug Probe"
+DESCRIPTION_1       = "XDS110 Class DFU Interface"
+DESCRIPTION_2       = "XDS110 Class Data Port"
+WinUSB_SvcDesc      = "WinUSB Driver Service"
+TI_Debug_Probe_Name = "Texas Instruments Debug Probes"

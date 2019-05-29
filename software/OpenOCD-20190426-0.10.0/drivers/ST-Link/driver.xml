@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ArrayOfUniversalUsbDriver xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <UniversalUsbDriver>
+    <UniversalDriverName>ST-Link Driver</UniversalDriverName>
+	<PrimaryInfFile>stlink_dbg_winusb.inf </PrimaryInfFile>
+	<UniqueDriverId>com.sysprogs.libusb.stlink</UniqueDriverId>
+	<FixedDriver>
+		<ManufacturerName>STMicroelectronics</ManufacturerName>
+		<DeviceNameRegex>STMicroelectronics STLink dongle</DeviceNameRegex>
+	</FixedDriver>
+  </UniversalUsbDriver>
+</ArrayOfUniversalUsbDriver>

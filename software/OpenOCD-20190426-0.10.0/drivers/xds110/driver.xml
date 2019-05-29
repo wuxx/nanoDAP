@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ArrayOfUniversalUsbDriver xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <UniversalUsbDriver>
+    <UniversalDriverName>TI XDS110 Driver</UniversalDriverName>
+	<PrimaryInfFile>xds110_debug.inf</PrimaryInfFile>
+	<UniqueDriverId>com.sysprogs.ti.xds110</UniqueDriverId>
+	<FixedDriver>
+		<ManufacturerName>Texas Instruments Incorporated</ManufacturerName>
+		<DeviceNameRegex>XDS110 Class Debug Probe</DeviceNameRegex>
+	</FixedDriver>
+  </UniversalUsbDriver>
+</ArrayOfUniversalUsbDriver>

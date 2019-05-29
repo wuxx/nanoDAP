@@ -1,0 +1,67 @@
+;-------------------------------------------------------------------------
+;
+; XDS110 USB CDC driver installation file.
+;
+; Copyright (c) 2014-2016 Texas Instruments Incorporated. 
+; All rights reserved.
+;
+;-------------------------------------------------------------------------
+
+[Version]
+Signature   = "$Windows NT$"
+Class       = Ports
+ClassGuid   = {4D36E978-E325-11CE-BFC1-08002BE10318}
+Provider    = %MFGNAME%
+LayoutFile  = layout.inf
+CatalogFile = xds110_ports.cat
+DriverVer   = 04/05/2016,1.7.0.0
+
+; ========== Manufacturer/Models sections ===========
+
+[Manufacturer]
+%MFGNAME% = XDS110Device,NTx86,NTamd64
+
+[XDS110Device.NTx86]
+%DESCRIPTION_0% = DriverInstall,USB\VID_0451&PID_BEF2&MI_00
+%DESCRIPTION_0% = DriverInstall,USB\VID_0451&PID_BEF3&MI_00
+%DESCRIPTION_1% = DriverInstall,USB\VID_0451&PID_BEF3&MI_03
+
+[XDS110Device.NTamd64]
+%DESCRIPTION_0% = DriverInstall,USB\VID_0451&PID_BEF2&MI_00
+%DESCRIPTION_0% = DriverInstall,USB\VID_0451&PID_BEF3&MI_00
+%DESCRIPTION_1% = DriverInstall,USB\VID_0451&PID_BEF3&MI_03
+
+; =================== Installation ===================
+
+[DriverInstall]
+CopyFiles = DriverCopyFiles
+AddReg    = DriverInstall.AddReg
+
+[DriverCopyFiles]
+usbser.sys,,,0x20
+
+[DriverInstall.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,usbser.sys
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[DriverInstall.Services]
+AddService = usbser, 0x00000002, DriverService
+
+[DriverService]
+DisplayName   = %SERVICE%
+ServiceType   = 1
+StartType     = 3
+ErrorControl  = 1
+ServiceBinary = %12%\usbser.sys
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+; =================== Strings ===================
+
+[Strings]
+MFGNAME       = "Texas Instruments Incorporated"
+DESCRIPTION_0 = "XDS110 Class Application/User UART"
+DESCRIPTION_1 = "XDS110 Class Auxiliary Data Port"
+SERVICE       = "XDS110 Device Serial Ports"

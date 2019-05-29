@@ -1,0 +1,129 @@
+[Strings]
+
+DeviceName = "$$DEVICE_NAME$$"
+DeviceGUID = "$$DEVICE_GUID$$"
+DeviceClassGUID = "{78a1c341-4539-11d3-b88d-00c04fad5171}"
+Date = "$$TODAY_DATE$$"
+
+ProviderName = "$$PROVIDER_NAME$$"
+WinUSB_SvcDesc = "WinUSB Driver Service"
+DiskName = "libusb (WinUSB) Device Install Disk"
+ClassName = "libusb (WinUSB) devices"
+
+; ====================== Version ======================
+
+[Version]
+DriverVer = %Date%
+Signature = "$Windows NT$"
+Class = %ClassName%
+ClassGuid = %DeviceClassGUID%
+Provider = %ProviderName%
+CatalogFile = libusb_device.cat
+
+; =================== Class section ===================
+
+; Since the device is not a standard USB device, we define a new class for it.
+[ClassInstall32]
+Addreg = WinUSBDeviceClassReg
+
+[WinUSBDeviceClassReg]
+HKR,,,0,%ClassName%
+; -20 is for the USB icon
+HKR,,Icon,,-20
+
+; =========== Manufacturer/Models sections ============
+
+[Manufacturer]
+%ProviderName% = libusbDevice_WinUSB,NTx86,NTamd64
+
+[libusbDevice_WinUSB.NTx86]
+%DeviceName% = USB_Install, $$HARDWARE_ID$$
+
+[libusbDevice_WinUSB.NTamd64]
+%DeviceName% = USB_Install, $$HARDWARE_ID$$
+
+; ==================== Installation ===================
+
+; The Include and Needs directives in the USB_Install section are required for 
+; installing WinUSB on Windows Vista systems. Windows XP systems ignore these 
+; directives. These directives should not be modified.
+[USB_Install]
+Include=winusb.inf
+Needs=WINUSB.NT
+
+; The Include directive in the USB_Install.Services section includes the system-
+; supplied INF for WinUSB. This INF is installed by the WinUSB co-installer if 
+; it is not already on the target system. The AddService directive specifies 
+; WinUsb.sys as the device’s function driver. These directives should not be 
+; modified.
+[USB_Install.Services]
+Include=winusb.inf
+AddService=WinUSB,0x00000002,WinUSB_ServiceInstall
+
+; The WinUSB_ServiceInstall section contains the data for installing WinUsb.sys 
+; as a service. This section should not be modified.
+[WinUSB_ServiceInstall]
+DisplayName     = %WinUSB_SvcDesc%
+ServiceType     = 1
+StartType       = 3
+ErrorControl    = 1
+ServiceBinary   = %12%\WinUSB.sys
+
+; The KmdfService directive installs WinUsb.sys as a kernel-mode service. The 
+; referenced WinUSB_Install section specifies the KMDF library version. 
+; Usually, the version can be derived from the WdfCoInstallerxxyyy.dll with 
+; xx = major, yyy = minor
+[USB_Install.Wdf]
+KmdfService=WINUSB, WinUsb_Install
+
+[WinUSB_Install]
+KmdfLibraryVersion=1.9
+
+; USB_Install.HW is the key section in the INF. It specifies the device 
+; interface globally unique identifier (GUID) for your device. The AddReg 
+; directive puts the interface GUID in a standard registry value. When 
+; WinUsb.sys is loaded as the device’s function driver, it reads the registry
+; value and uses the specified GUID to represent the device interface. You 
+; should replace the GUID in this example with one that you create specifically
+; for your device. If the protocols for the device change, you should create a
+; new device interface GUID.
+[USB_Install.HW]
+AddReg=Dev_AddReg
+
+[Dev_AddReg]
+HKR,,DeviceInterfaceGUIDs,0x10000,%DeviceGUID%
+
+; The USB_Install.CoInstallers section, including the referenced AddReg and 
+; CopyFiles sections, contains data and instructions to install the WinUSB and 
+; KMDF co installers and associate them with the device. Most USB devices can 
+; use these sections and directives without modification.
+[USB_Install.CoInstallers]
+AddReg=CoInstallers_AddReg
+CopyFiles=CoInstallers_CopyFiles
+
+[CoInstallers_AddReg]
+HKR,,CoInstallers32,0x00010000,"WdfCoInstaller01009.dll,WdfCoInstaller","WinUSBCoInstaller2.dll"
+
+[CoInstallers_CopyFiles]
+WinUSBCoInstaller2.dll
+WdfCoInstaller01009.dll
+
+[DestinationDirs]
+CoInstallers_CopyFiles=11
+
+; =============== Source Media Section ================
+ 
+; The x86 and x64 versions of Windows have separate co installers. This example 
+; stores them on the installation disk in folders that are named x86 and amd64
+[SourceDisksNames]
+1 = %DiskName%,,,\x86
+2 = %DiskName%,,,\amd64
+
+[SourceDisksFiles.x86]
+WinUSBCoInstaller2.dll=1
+WdfCoInstaller01009.dll=1
+
+[SourceDisksFiles.amd64]
+WinUSBCoInstaller2.dll=2
+WdfCoInstaller01009.dll=2
+
