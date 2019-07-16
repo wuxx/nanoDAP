@@ -1,5 +1,5 @@
 # CMSIS-DAP 升级说明 #
-CMSIS-DAP 使用stm32f103c8t6，由于flash只有64KB，升级需要使用另外一个仿真器对其进行升级，
+CMSIS-DAP 使用stm32f103c8t6，由于flash只有64KB，升级需要使用另外一个仿真器配合上位机对其进行升级，
 如stlink + st utility，jlink + jflash，或者cmsis-dap + openocd/pyocd。
 
 # DAPLink 升级说明 #
