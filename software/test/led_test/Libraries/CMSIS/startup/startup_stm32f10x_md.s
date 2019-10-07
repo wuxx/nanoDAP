@@ -66,8 +66,8 @@ __Vectors       DCD     __initial_sp               ; Top of Stack
                 DCD     BusFault_Handler           ; Bus Fault Handler
                 DCD     UsageFault_Handler         ; Usage Fault Handler
                 DCD     0xdeadbeef                          ; Reserved
-                DCD     0                          ; Reserved
-                DCD     0                          ; Reserved
+                DCD     __initial_sp                          ; Reserved
+                DCD     Reset_Handler                          ; Reserved
                 DCD     0                          ; Reserved
                 DCD     SVC_Handler                ; SVCall Handler
                 DCD     DebugMon_Handler           ; Debug Monitor Handler
