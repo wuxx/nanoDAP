@@ -63,6 +63,7 @@ module:
     hic_stm32f103xb: &module_hic_stm32f103xb
         - records/rtos/rtos-cm3.yaml
         - records/hic_hal/stm32f103xb.yaml
+        #- records/usb/usb-bulk.yaml
     hic_max32620: &module_hic_max32620
         - records/rtos/rtos-cm4.yaml
         - records/hic_hal/max32620.yaml

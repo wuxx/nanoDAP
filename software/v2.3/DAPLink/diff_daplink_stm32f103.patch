@@ -1,0 +1,203 @@
+diff --git a/projects.yaml b/projects.yaml
+index f2b800c3..67913ae6 100644
+--- a/projects.yaml
++++ b/projects.yaml
+@@ -63,6 +63,7 @@ module:
+     hic_stm32f103xb: &module_hic_stm32f103xb
+         - records/rtos/rtos-cm3.yaml
+         - records/hic_hal/stm32f103xb.yaml
++        - records/usb/usb-bulk.yaml
+     hic_max32620: &module_hic_max32620
+         - records/rtos/rtos-cm4.yaml
+         - records/hic_hal/max32620.yaml
+diff --git a/source/daplink/cmsis-dap/DAP.c b/source/daplink/cmsis-dap/DAP.c
+index 446c0052..e9aa109d 100644
+--- a/source/daplink/cmsis-dap/DAP.c
++++ b/source/daplink/cmsis-dap/DAP.c
+@@ -1587,6 +1587,17 @@ uint32_t DAP_ExecuteCommand(const uint8_t *request, uint8_t *response) {
+   return DAP_ProcessCommand(request, response);
+ }
+ 
++void set_target_soft_reset()
++{
++	if (DAP_Data.debug_port == DAP_PORT_SWD) {
++			swd_set_target_soft_reset();
++	}
++#if 0
++ else if {DAP_Data.debug_port = DAP_PORT_JTAG} {
++	}
++#endif
++
++}
+ 
+ // Setup DAP
+ void DAP_Setup(void) {
+diff --git a/source/daplink/interface/swd_host.c b/source/daplink/interface/swd_host.c
+index f190ca97..45599d0a 100644
+--- a/source/daplink/interface/swd_host.c
++++ b/source/daplink/interface/swd_host.c
+@@ -1019,6 +1019,11 @@ uint8_t swd_set_target_state_hw(TARGET_RESET_STATE state)
+     return 1;
+ }
+ 
++void swd_set_target_soft_reset()
++{
++    swd_write_word(NVIC_AIRCR, VECTKEY | 0x7);
++}
++
+ uint8_t swd_set_target_state_sw(TARGET_RESET_STATE state)
+ {
+     uint32_t val;
+diff --git a/source/hic_hal/stm32/stm32f103xb/DAP_config.h b/source/hic_hal/stm32/stm32f103xb/DAP_config.h
+index 95b29f66..feee7d5a 100644
+--- a/source/hic_hal/stm32/stm32f103xb/DAP_config.h
++++ b/source/hic_hal/stm32/stm32f103xb/DAP_config.h
+@@ -59,11 +59,11 @@ Provides definitions about:
+ 
+ /// Indicate that JTAG communication mode is available at the Debug Port.
+ /// This information is returned by the command \ref DAP_Info as part of <b>Capabilities</b>.
+-#define DAP_JTAG                0               ///< JTAG Mode: 1 = available, 0 = not available.
++#define DAP_JTAG                1               ///< JTAG Mode: 1 = available, 0 = not available.
+ 
+ /// Configure maximum number of JTAG devices on the scan chain connected to the Debug Access Port.
+ /// This setting impacts the RAM requirements of the Debug Unit. Valid range is 1 .. 255.
+-#define DAP_JTAG_DEV_CNT        0               ///< Maximum number of JTAG devices on scan chain
++#define DAP_JTAG_DEV_CNT        8               ///< Maximum number of JTAG devices on scan chain
+ 
+ /// Default communication mode on the Debug Access Port.
+ /// Used for the command \ref DAP_Connect when Port Default mode is selected.
+@@ -217,7 +217,26 @@ Configures the DAP Hardware I/O pins for JTAG mode:
+ static __inline void PORT_JTAG_SETUP(void)
+ {
+ #if (DAP_JTAG != 0)
++    // TCK output
++    pin_out_init(JTAG_TCK_PIN_PORT, JTAG_TCK_PIN_Bit);
++    JTAG_TCK_PIN_PORT->BSRR = JTAG_TCK_PIN;
++    // TMS output
++    pin_out_init(JTAG_TMS_PIN_PORT, JTAG_TMS_PIN_Bit);
++    JTAG_TMS_PIN_PORT->BSRR = JTAG_TMS_PIN;
+ 
++	  // TDI output
++    pin_out_init(JTAG_TDI_PIN_PORT, JTAG_TDI_PIN_Bit);
++    JTAG_TDI_PIN_PORT->BSRR = JTAG_TDI_PIN;
++
++		// TDO input
++    pin_in_init(JTAG_TDO_PIN_PORT, JTAG_TDO_PIN_Bit, 1);
++
++    pin_in_init(SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, 1);
++	
++    // Set RESET HIGH
++    pin_out_od_init(nRESET_PIN_PORT, nRESET_PIN_Bit);//TODO - fix reset logic
++    nRESET_PIN_PORT->BSRR = nRESET_PIN;
++	
+ #endif
+ }
+ 
+@@ -351,7 +370,11 @@ static __forceinline void PIN_SWDIO_OUT_DISABLE(void)
+ */
+ static __forceinline uint32_t PIN_TDI_IN(void)
+ {
+-    return (0);   // Not available
++#if ( DAP_JTAG != 0 )
++    return (JTAG_TDI_PIN_PORT->IDR >> JTAG_TDI_PIN_Bit) & 1;
++#else
++		return 0;
++#endif
+ }
+ 
+ /** TDI I/O pin: Set Output.
+@@ -359,7 +382,12 @@ static __forceinline uint32_t PIN_TDI_IN(void)
+ */
+ static __forceinline void PIN_TDI_OUT(uint32_t bit)
+ {
+-    ;             // Not available
++#if ( DAP_JTAG != 0 )
++	  if (bit & 1)
++        JTAG_TDI_PIN_PORT->BSRR = JTAG_TDI_PIN;
++    else
++        JTAG_TDI_PIN_PORT->BRR = JTAG_TDI_PIN;
++#endif	
+ }
+ 
+ 
+@@ -370,10 +398,13 @@ static __forceinline void PIN_TDI_OUT(uint32_t bit)
+ */
+ static __forceinline uint32_t PIN_TDO_IN(void)
+ {
+-    return (0);   // Not available
++#if ( DAP_JTAG != 0 )
++    return (JTAG_TDO_PIN_PORT->IDR >> JTAG_TDO_PIN_Bit) & 1;
++#else
++		return 0;
++#endif
+ }
+ 
+-
+ // nTRST Pin I/O -------------------------------------------
+ 
+ /** nTRST I/O pin: Get Input.
+@@ -410,9 +441,11 @@ static __forceinline uint32_t PIN_nRESET_IN(void)
+            - 1: release device hardware reset.
+ */
+ // TODO - sw specific implementation should be created
+-
++extern void set_target_soft_reset(void);
+ static __forceinline void     PIN_nRESET_OUT(uint32_t bit)
+ {
++		set_target_soft_reset();
++	
+     if (bit & 1)
+         nRESET_PIN_PORT->BSRR = nRESET_PIN;
+     else
+diff --git a/source/hic_hal/stm32/stm32f103xb/IO_Config.h b/source/hic_hal/stm32/stm32f103xb/IO_Config.h
+index de9a4667..96519787 100644
+--- a/source/hic_hal/stm32/stm32f103xb/IO_Config.h
++++ b/source/hic_hal/stm32/stm32f103xb/IO_Config.h
+@@ -29,12 +29,12 @@
+ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_STM32F103XB);
+ 
+ //USB control pin
+-#define USB_CONNECT_PORT_ENABLE()    __HAL_RCC_GPIOA_CLK_ENABLE()
+-#define USB_CONNECT_PORT_DISABLE()   __HAL_RCC_GPIOA_CLK_DISABLE()
+-#define USB_CONNECT_PORT             GPIOA
+-#define USB_CONNECT_PIN              GPIO_PIN_15
+-#define USB_CONNECT_ON()             (USB_CONNECT_PORT->BSRR = USB_CONNECT_PIN)
+-#define USB_CONNECT_OFF()            (USB_CONNECT_PORT->BRR  = USB_CONNECT_PIN)
++#define USB_CONNECT_PORT_ENABLE()    __HAL_RCC_GPIOB_CLK_ENABLE()
++#define USB_CONNECT_PORT_DISABLE()   __HAL_RCC_GPIOB_CLK_DISABLE()
++#define USB_CONNECT_PORT             GPIOB
++#define USB_CONNECT_PIN              GPIO_PIN_8
++#define USB_CONNECT_ON()             (USB_CONNECT_PORT->BRR = USB_CONNECT_PIN)
++#define USB_CONNECT_OFF()            (USB_CONNECT_PORT->BSRR  = USB_CONNECT_PIN)
+ 
+ //Connected LED
+ #define CONNECTED_LED_PORT           GPIOB
+@@ -64,6 +64,28 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_STM32F103XB);
+ #define SWDIO_IN_PIN                 GPIO_PIN_12
+ #define SWDIO_IN_PIN_Bit             12
+ 
++
++// JTAG-TCK
++#define JTAG_TCK_PIN_PORT            SWCLK_TCK_PIN_PORT
++#define JTAG_TCK_PIN                 SWCLK_TCK_PIN
++#define JTAG_TCK_PIN_Bit             SWCLK_TCK_PIN_Bit
++
++// JTAG-TMS
++#define JTAG_TMS_PIN_PORT            SWDIO_OUT_PIN_PORT
++#define JTAG_TMS_PIN                 SWDIO_OUT_PIN
++#define JTAG_TMS_PIN_Bit             SWDIO_OUT_PIN_Bit
++
++// JTAG-TDI
++#define JTAG_TDI_PIN_PORT            GPIOA
++#define JTAG_TDI_PIN                 GPIO_PIN_7
++#define JTAG_TDI_PIN_Bit             7
++
++// JTAG-TDO
++#define JTAG_TDO_PIN_PORT            GPIOA
++#define JTAG_TDO_PIN                 GPIO_PIN_5
++#define JTAG_TDO_PIN_Bit             5
++
++
+ //LEDs
+ //USB status LED
+ #define RUNNING_LED_PORT             GPIOA
