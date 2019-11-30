@@ -1,0 +1,9 @@
+common:
+    macros:
+        - BOARD_RAPID_IOT
+    sources:
+        board:
+            - source/board/rapid_iot.c
+        family:
+            - source/family/freescale/rapid_iot/target.c
+            - source/family/freescale/target_reset_rapid_iot.c

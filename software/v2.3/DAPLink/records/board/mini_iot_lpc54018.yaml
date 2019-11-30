@@ -1,0 +1,8 @@
+common:
+    macros:
+        - SOFT_RESET=VECTRESET
+    sources:
+        board:
+            - source/board/mini_iot_lpc54018.c
+        family:
+            - source/family/nxp/lpc54018/target.c

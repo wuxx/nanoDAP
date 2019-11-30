@@ -1,0 +1,7 @@
+common:
+    sources:
+        board:
+            - source/board/hvpke18f.c
+        family:
+            - source/family/freescale/ke18f/target.c
+            - source/family/freescale/target_reset_Kseries.c

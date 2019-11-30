@@ -1,0 +1,7 @@
+common:
+    sources:
+        board:
+            - source/board/hexiwear.c
+        family:
+            - source/family/freescale/rapid_iot/target.c
+            - source/family/freescale/target_reset_rapid_iot.c

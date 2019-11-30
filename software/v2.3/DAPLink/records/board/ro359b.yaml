@@ -1,0 +1,6 @@
+common:
+    sources:
+        board:
+            - source/board/ro359b.c
+        family:
+            - source/family/freescale/k64f/target.c

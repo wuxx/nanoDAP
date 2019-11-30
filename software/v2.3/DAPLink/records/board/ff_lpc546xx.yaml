@@ -1,0 +1,6 @@
+common:
+    sources:
+        board:
+            - source/board/ff_lpc546xx.c
+        family:
+            - source/family/nxp/lpc54608/target.c

@@ -1,0 +1,6 @@
+common:
+    sources:
+        board:
+            - source/board/lpc812xpresso.c
+        family:
+            - source/family/nxp/lpc812/target.c

@@ -1,0 +1,6 @@
+common:
+    sources:
+        board:
+            - source/board/max32630fthr.c
+        family:
+            - source/family/maxim/max32630/target.c

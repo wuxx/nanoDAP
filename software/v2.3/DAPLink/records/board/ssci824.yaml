@@ -1,0 +1,8 @@
+common:
+    includes:
+        - source/target/nxp/lpc824
+    sources:
+        board:
+            - source/board/scci824.c
+        family:
+            - source/family/nxp/lpc824/target.c

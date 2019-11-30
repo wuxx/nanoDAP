@@ -1,0 +1,6 @@
+common:
+    sources:
+        board:
+            - source/board/wio3g.c
+        family:
+            - source/family/st/stm32f439zi/target.c

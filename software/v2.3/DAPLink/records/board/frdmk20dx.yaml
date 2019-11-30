@@ -1,0 +1,7 @@
+common:
+    sources:
+        board:
+            - source/board/frdmk20dx.c
+        family:
+            - source/family/freescale/k20dx/target.c
+            - source/family/freescale/target_reset_Kseries.c

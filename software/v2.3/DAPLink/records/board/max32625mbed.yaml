@@ -1,0 +1,6 @@
+common:
+    sources:
+        board:
+            - source/board/max32625mbed.c
+        family:
+            - source/family/maxim/max32625/target.c

@@ -1,0 +1,6 @@
+common:
+    includes:
+        - source/target/
+    sources:
+        target:
+            - source/target/target_board.c
