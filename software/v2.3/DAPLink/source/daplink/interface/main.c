@@ -349,7 +349,7 @@ void main_task(void * arg)
 
         // 30mS tick used for flashing LED when USB is busy
         if (flags & FLAGS_MAIN_30MS) {
-
+#if 0
             // handle reset button without eventing
             if (!reset_pressed && gpio_get_reset_btn_fwrd()) {
 #ifdef DRAG_N_DROP_SUPPORT
@@ -365,6 +365,7 @@ void main_task(void * arg)
                 target_set_state(RESET_RUN);
                 reset_pressed = 0;
             }
+#endif
 
 #ifdef PBON_BUTTON
             // handle PBON pressed

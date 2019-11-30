@@ -155,7 +155,7 @@
 #define USBD_HID_HS_ENABLE          0
 #define USBD_HID_HS_WMAXPACKETSIZE  64
 #define USBD_HID_HS_BINTERVAL       6
-#define USBD_HID_STRDESC            L"CMSIS-DAP v1"
+#define USBD_HID_STRDESC            L"CMSIS-DAP-v1-MuseLab"
 #define USBD_WEBUSB_STRDESC         L"WebUSB: CMSIS-DAP"
 #define USBD_HID_INREPORT_NUM       1
 #define USBD_HID_OUTREPORT_NUM      1
@@ -386,7 +386,7 @@
 #define USBD_BULK_WMAXPACKETSIZE     64
 #define USBD_BULK_HS_ENABLE          0
 #define USBD_BULK_HS_WMAXPACKETSIZE  512
-#define USBD_BULK_STRDESC            L"CMSIS-DAP v2"
+#define USBD_BULK_STRDESC            L"CMSIS-DAP-v2-MuseLab"
 
 /* USB Device Calculations ---------------------------------------------------*/
 

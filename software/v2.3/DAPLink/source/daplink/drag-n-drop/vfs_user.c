@@ -47,7 +47,7 @@ static const char mbed_redirect_file[] =
     "<html>\r\n"
     "<head>\r\n"
     "<meta charset=\"utf-8\">\r\n"
-    "<title>mbed Website Shortcut</title>\r\n"
+    "<title>MuseLab Shop Website Shortcut</title>\r\n"
     "</head>\r\n"
     "<body>\r\n"
     "<script>\r\n"
@@ -362,6 +362,8 @@ static uint32_t update_html_file(uint8_t *data, uint32_t datasize)
     return expand_info(data, datasize);
 }
 
+#define BUILD_TIME "Build Time: " __DATE__ " " __TIME__ "\r\n"
+
 static uint32_t update_details_txt_file(uint8_t *data, uint32_t datasize)
 {
     uint32_t pos=0;
@@ -372,7 +374,10 @@ static uint32_t update_details_txt_file(uint8_t *data, uint32_t datasize)
     //Needed by expand_info strlen
     memset(buf, 0, datasize);
 
-    pos += util_write_string(buf + pos, "# DAPLink Firmware - see https://mbed.com/daplink\r\n");
+    pos += util_write_string(buf + pos, "# DAPLink Firmware by MuseLab - see muselab-tech.com\r\n");
+		// Build TIME
+    pos += util_write_string(buf + pos, BUILD_TIME);
+	
     // Unique ID
     pos += util_write_string(buf + pos, "Unique ID: @U\r\n");
     // HIC ID
