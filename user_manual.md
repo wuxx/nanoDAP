@@ -67,7 +67,7 @@ DAPLink 实现了一个bootloader并且提供了U盘功能，这使得固件升�
 
 # FAQ
 ### Q: 在win7系统下会提示无串口驱动，应该如何安装？  
-在本github仓库的driver/windows7_serial_driver/ (https://github.com/wuxx/nanoDAP/tree/master/driver/windows7_serial_driver) 目录下有CMSIS-DAP.inf，请尝试安装此驱动，大部分情况下可以正常安装使用，若仍然无法安装，请尝试目录下的另一驱动windows7_serial_driver.rar，根据压缩包里的指导进行操作即可。   
+请参考 (https://github.com/wuxx/nanoDAP/tree/master/driver/windows7_serial_driver) 。   
 ### Q: 烧录失败，提示 RDDI-DAP ERROR，应该如何解决？
 由于仿真器烧录速度较快，杜邦线之间的信号会产生串扰，请尝试换短一些的杜邦线，或者把紧密连在一起的杜邦线拉开，也可以尝试降低烧录速度，一般即可正常解决。
 ### Q: 无法检测到目标，提示communication failure，应该如何解决？
