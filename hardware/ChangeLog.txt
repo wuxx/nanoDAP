@@ -8,3 +8,7 @@ V2.0
 V2.1
 少量用户反馈DAPLink 在win7 DAPLink无法枚举成功，USB D+上增加GPIO进行控制上拉。
 对于CMSIS-DAP则使用0欧电阻直接上拉。
+
+V2.3
+1 CMSIS-DAP 和 DAPLink USB枚举均采用控制上拉，控制IO改成PB15（原来为PA15，复用了JTAG-TDI）
+2 SWD接口上增加串联电阻，提高信号质量

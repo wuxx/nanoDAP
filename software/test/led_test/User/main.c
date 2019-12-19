@@ -48,8 +48,12 @@ void gpio_off()
 	GPIO_ResetBits(GPIOC, GPIO_Pin_All);
 }
 
+const static char array[60 * 1024] = {1, 2, 3};
+
 int main(void)
 {	
+	int i = 0;
+	
 	gpio_init();
 	
 	while (1) {
@@ -58,6 +62,9 @@ int main(void)
 
 		gpio_off();
 		delay_ms(100);
+		delay_ms(array[(i++) % sizeof(array)]);
+		
+		
 	}
 
 	return 0;
