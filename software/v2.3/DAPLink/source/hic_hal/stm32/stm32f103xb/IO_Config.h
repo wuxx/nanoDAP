@@ -44,7 +44,7 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_STM32F103XB);
 //When bootloader, disable the target port(not used)
 #define POWER_EN_PIN_PORT            GPIOB
 #define POWER_EN_PIN                 GPIO_PIN_8
-#define POWER_EN_Bit                 15
+#define POWER_EN_Bit                 8
 
 // nRESET OUT Pin
 #define nRESET_PIN_PORT              GPIOB
