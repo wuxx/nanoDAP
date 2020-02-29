@@ -1,6 +1,6 @@
 # CMSIS-DAP 升级说明 #
 CMSIS-DAP 使用stm32f103c8t6，由于flash只有64KB，升级需要使用另外一个仿真器配合上位机对其进行升级，
-如stlink + st utility，jlink + jflash，或者cmsis-dap + openocd/pyocd。
+如stlink + st utility，jlink + jflash，或者cmsis-dap + openocd/pyocd，（注意设置烧录起始地址为0x08000000）。
 
 # DAPLink 升级说明 #
 DAPLink使用 stm32f103cbt6，flash大小为128KB，DAPLink自带一个带U盘的bootloader，可以方便的
