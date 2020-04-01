@@ -4,6 +4,6 @@
 #### stm32f103xb_bl.bin  
     bootloader，大小为48KB
 #### stm32f103xb_stm32f103rb_if_bulk.hex  
-    支持usb bulk传输的固件，keil目前还不支持，IAR支持。
+    支持usb bulk传输的固件，keil需要5.29版本及以上才支持，IAR支持，openocd不支持。
 #### stm32f103xb_stm32f103rb_if_hid.hex  
     支持usb hid传输的固件，所有IDE包括keil，iar，openocd均支持。
