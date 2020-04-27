@@ -84,7 +84,7 @@ DAPLink 实现了一个bootloader并且提供了U盘功能，这使得固件升�
 - stm32f429zi  
 - stm32f746zg  
 - stm32l476rg  
-您可以自行编译固件，或者从本仓库的firmware目录下直接获取即可，假若您有自己的芯片平台需要支持拖拽烧录，可以参考目前的代码作修改。
+您可以自行编译固件，固件编译可参考[DEVELOPERS-GUIDE](https://github.com/ARMmbed/DAPLink/blob/master/docs/DEVELOPERS-GUIDE.md)，假若您有自己的芯片平台需要支持拖拽烧录，可以参考目前的代码作修改。
 
 ### Q: 在linux下可以使用DAP仿真器进行调试吗？
  linux下可以使用openocd配合DAP仿真器进行调试，openocd是目前全世界最流行，最强大的开源调试器上位机，由于openocd是跨平台的，你也可以在windows下使用openocd，通过编写适当的配置脚本，可以实现对芯片的调试、烧录等操作。由于涉及内容较多，更多说明请读者自行搜索，或者留言咨询。  
