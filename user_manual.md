@@ -11,6 +11,7 @@
     * [固件升级](#固件升级)
 * [FAQ](#faq)
     * [在win7系统下会提示无串口驱动，应该如何安装？](#q-在win7系统下会提示无串口驱动应该如何安装)
+    * [WebUSB驱动应该如何安装？](#q-webusb驱动应该如何安装)
     * [烧录失败，提示 RDDI-DAP ERROR，应该如何解决？](#q-烧录失败提示-rddi-dap-error应该如何解决)
     * [无法检测到目标，提示communication failure，应该如何解决？](#q-无法检测到目标提示communication-failure应该如何解决)
     * [CMSIS-DAP/DAPLink目前支持哪些芯片的调试烧录？](#q-cmsis-dapdaplink目前支持哪些芯片的调试烧录)
@@ -68,6 +69,8 @@ DAPLink 实现了一个bootloader并且提供了U盘功能，这使得固件升�
 # FAQ
 ### Q: 在win7系统下会提示无串口驱动，应该如何安装？  
 请参考 (https://github.com/wuxx/nanoDAP/tree/master/driver/windows7_serial_driver) 。   
+### Q: WebUSB驱动应该如何安装？  
+WebUSB可以在web网页上实现拖拽烧录，win10自带驱动支持，win7系统本身不支持，不常用，一般可不用理会。
 ### Q: 烧录失败，提示 RDDI-DAP ERROR，应该如何解决？
 由于仿真器烧录速度较快，杜邦线之间的信号会产生串扰，请尝试换短一些的杜邦线，或者把紧密连在一起的杜邦线拉开，也可以尝试降低烧录速度，一般即可正常解决。
 ### Q: 无法检测到目标，提示communication failure，应该如何解决？
