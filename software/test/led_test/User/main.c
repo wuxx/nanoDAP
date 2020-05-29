@@ -58,11 +58,12 @@ int main(void)
 	
 	while (1) {
 		gpio_on();
-		delay_ms(100);
+		delay_ms(10);
 
+        
 		gpio_off();
-		delay_ms(100);
-		delay_ms(array[(i++) % sizeof(array)]);
+		delay_ms(10);
+		//delay_ms(array[(i++) % sizeof(array)]);
 		
 		
 	}
