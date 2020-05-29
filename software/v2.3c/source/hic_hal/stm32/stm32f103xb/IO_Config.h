@@ -29,8 +29,8 @@
 COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_STM32F103XB);
 
 //USB control pin
-#define USB_CONNECT_PORT_ENABLE()    __HAL_RCC_GPIOA_CLK_ENABLE()
-#define USB_CONNECT_PORT_DISABLE()   __HAL_RCC_GPIOA_CLK_DISABLE()
+#define USB_CONNECT_PORT_ENABLE()    __HAL_RCC_GPIOB_CLK_ENABLE()
+#define USB_CONNECT_PORT_DISABLE()   __HAL_RCC_GPIOB_CLK_DISABLE()
 #define USB_CONNECT_PORT             GPIOB
 #define USB_CONNECT_PIN              GPIO_PIN_15
 #define USB_CONNECT_ON()             (USB_CONNECT_PORT->BRR = USB_CONNECT_PIN)
@@ -43,8 +43,8 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_STM32F103XB);
 
 //When bootloader, disable the target port(not used)
 #define POWER_EN_PIN_PORT            GPIOB
-#define POWER_EN_PIN                 GPIO_PIN_15
-#define POWER_EN_Bit                 15
+#define POWER_EN_PIN                 GPIO_PIN_8
+#define POWER_EN_Bit                 8
 
 // nRESET OUT Pin
 #define nRESET_PIN_PORT              GPIOB
@@ -63,6 +63,28 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_STM32F103XB);
 #define SWDIO_IN_PIN_PORT            GPIOB
 #define SWDIO_IN_PIN                 GPIO_PIN_12
 #define SWDIO_IN_PIN_Bit             12
+
+
+// JTAG-TCK
+#define JTAG_TCK_PIN_PORT            SWCLK_TCK_PIN_PORT
+#define JTAG_TCK_PIN                 SWCLK_TCK_PIN
+#define JTAG_TCK_PIN_Bit             SWCLK_TCK_PIN_Bit
+
+// JTAG-TMS
+#define JTAG_TMS_PIN_PORT            SWDIO_OUT_PIN_PORT
+#define JTAG_TMS_PIN                 SWDIO_OUT_PIN
+#define JTAG_TMS_PIN_Bit             SWDIO_OUT_PIN_Bit
+
+// JTAG-TDI
+#define JTAG_TDI_PIN_PORT            GPIOA
+#define JTAG_TDI_PIN                 GPIO_PIN_7
+#define JTAG_TDI_PIN_Bit             7
+
+// JTAG-TDO
+#define JTAG_TDO_PIN_PORT            GPIOA
+#define JTAG_TDO_PIN                 GPIO_PIN_5
+#define JTAG_TDO_PIN_Bit             5
+
 
 //LEDs
 //USB status LED

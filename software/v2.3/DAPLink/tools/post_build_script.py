@@ -141,10 +141,10 @@ def post_build_script(input_file, output_file, board_id=None, family_id=None, bi
             new_hex_file.puts(program_target_addr,struct.pack('<' + program_target_fmt,
                                                             pack_flash_algo.symbols['Init'] + blob_header_size + flash_blob_entry,
                                                             pack_flash_algo.symbols['UnInit'] + blob_header_size + flash_blob_entry,
-                                                            pack_flash_algo.symbols['EraseChip'] + blob_header_size + flash_blob_entry if pack_flash_algo.symbols['EraseChip'] != 0xffffffffL else 0,
+                                                            pack_flash_algo.symbols['EraseChip'] + blob_header_size + flash_blob_entry if pack_flash_algo.symbols['EraseChip'] != 0xffffffff else 0,
                                                             pack_flash_algo.symbols['EraseSector'] + blob_header_size + flash_blob_entry,
                                                             pack_flash_algo.symbols['ProgramPage'] + blob_header_size + flash_blob_entry,
-                                                            pack_flash_algo.symbols['Verify'] + blob_header_size + flash_blob_entry if pack_flash_algo.symbols['Verify'] != 0xffffffffL else 0,
+                                                            pack_flash_algo.symbols['Verify'] + blob_header_size + flash_blob_entry if pack_flash_algo.symbols['Verify'] != 0xffffffff else 0,
                                                             flash_blob_entry + 1, #BKPT : start of blob + 1
                                                             flash_blob_entry + blob_header_size + pack_flash_algo.rw_start, #RSB  : blob start + header + rw data offset
                                                             stack_pointer, #RSP  : stack pointer
@@ -170,7 +170,7 @@ def post_build_script(input_file, output_file, board_id=None, family_id=None, bi
                                                             sector_info_len,    #Sector start and length list total
                                                             *regions_flags
                                                             ))
-            board_info_flag = 1 if pack_flash_algo.symbols['EraseSector'] != 0xffffffffL else 0  #kEnablePageErase                     
+            board_info_flag = 1 if pack_flash_algo.symbols['EraseSector'] != 0xffffffff else 0  #kEnablePageErase                     
             new_hex_file.puts(target_addr_unpack + 12,struct.pack('<1I', board_info_flag)) #always enable page erase EraseSector is a required symbol in flash algo
             new_hex_file.puts(target_addr_unpack + 16,struct.pack('<1I', target_cfg_addr))
 

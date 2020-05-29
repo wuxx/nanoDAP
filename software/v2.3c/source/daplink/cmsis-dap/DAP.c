@@ -1662,7 +1662,7 @@ uint8_t RST_Transfer(uint32_t request, uint32_t data)
   return ((uint8_t)ack);                                                        \
 }
 
-void target_soft_reset()
+void set_target_soft_reset()
 {
   uint32_t i;
   //soft-reset for Cortex-M

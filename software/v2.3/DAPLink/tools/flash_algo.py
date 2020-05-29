@@ -22,7 +22,7 @@ import struct
 import binascii
 import argparse
 import logging
-import StringIO
+import io
 import jinja2
 from collections import namedtuple
 from itertools import count
@@ -311,7 +311,7 @@ class ElfFileSimple(ELFFile):
 
     def __init__(self, data):
         """Construct a ElfFileSimple from bytes or a bytearray"""
-        super(ElfFileSimple, self).__init__(StringIO.StringIO(data))
+        super(ElfFileSimple, self).__init__(io.StringIO.StringIO(data))
         self.symbols = self._read_symbol_table()
 
     def _read_symbol_table(self):

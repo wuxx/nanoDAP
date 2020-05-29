@@ -996,6 +996,11 @@ uint8_t swd_set_target_state_hw(TARGET_RESET_STATE state)
     return 1;
 }
 
+void swd_set_target_soft_reset()
+{
+    swd_write_word(NVIC_AIRCR, VECTKEY | 0x7);
+}
+
 uint8_t swd_set_target_state_sw(TARGET_RESET_STATE state)
 {
     uint32_t val;
