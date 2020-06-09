@@ -16,7 +16,8 @@
     * [无法检测到目标，提示communication failure，应该如何解决？](#q-无法检测到目标提示communication-failure应该如何解决)
     * [CMSIS-DAP/DAPLink目前支持哪些芯片的调试烧录？](#q-cmsis-dapdaplink目前支持哪些芯片的调试烧录)
     * [DAPLink目前支持哪些芯片的U盘拖拽烧录？](#q-daplink目前支持哪些芯片的u盘拖拽烧录)
-	* [在Linux下能否使用dap仿真器进行调试？](#q-在linux下可以使用dap仿真器进行调试吗)
+    * [DAPLink如何升级固件？](#q-daplink如何升级固件)
+    * [在Linux下能否使用dap仿真器进行调试？](#q-在linux下可以使用dap仿真器进行调试吗)
 	
 # 产品介绍
 CMSIS-DAP/DAPLink 仿真器是MuseLab推出硬件软件均开源的仿真器，相比当前市面上流行的jlink/st-link，烧录速度快，不丢固件，无版权风险，功能丰富，价格低廉，外观简洁精致，能较好的满足电子工程师进行日常的开发调试下载需求。
@@ -88,7 +89,8 @@ WebUSB可以在web网页上实现拖拽烧录，win10自带驱动支持，win7�
 - stm32f746zg  
 - stm32l476rg  
 您可以自行编译固件，固件编译可参考[DEVELOPERS-GUIDE](https://github.com/ARMmbed/DAPLink/blob/master/docs/DEVELOPERS-GUIDE.md)，假若您有自己的芯片平台需要支持拖拽烧录，可以参考目前的代码作修改。
-
+### Q: DAPLink如何升级固件？
+请参考[CMSIS-DAP/DAPLink固件升级](https://github.com/wuxx/nanoDAP/tree/master/firmware/v2.3)
 ### Q: 在linux下可以使用DAP仿真器进行调试吗？
  linux下可以使用openocd配合DAP仿真器进行调试，openocd是目前全世界最流行，最强大的开源调试器上位机，由于openocd是跨平台的，你也可以在windows下使用openocd，通过编写适当的配置脚本，可以实现对芯片的调试、烧录等操作。由于涉及内容较多，更多说明请读者自行搜索，或者留言咨询。  
 
