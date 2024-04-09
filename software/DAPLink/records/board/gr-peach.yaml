@@ -1,0 +1,9 @@
+common:
+    macros:
+        - TARGET_MCU_CORTEX_A
+    sources:
+        board:
+            - source/board/gr-peach.c
+        family:
+            - source/family/renesas/rza1h/gr-peach/target.c
+            - source/family/renesas/target_reset_rza.c

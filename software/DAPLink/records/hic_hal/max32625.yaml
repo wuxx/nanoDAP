@@ -1,0 +1,37 @@
+common:
+    target:
+        - max32625
+    core:
+        - Cortex-M4F
+    macros:
+        - INTERFACE_MAX32625
+        - DAPLINK_HIC_ID=0x97969906 # DAPLINK_HIC_ID_MAX32625
+        - OS_CLOCK=96000000
+    includes:
+        - source/hic_hal/maxim/max32625
+    sources:
+        hic_hal:
+            - source/hic_hal/maxim/max32625
+
+tool_specific:
+    uvision:
+        misc:
+            ld_flags:
+                - --predefine="-I..\..\..\source\hic_hal\maxim\max32625"
+            asm_flags:
+                - -I../../../source/daplink
+        sources:
+            hic_hal:
+                - source/hic_hal/maxim/max32625/armcc
+    armcc:
+        sources:
+            hic_hal:
+                - source/hic_hal/maxim/max32625/armcc
+    armclang:
+        sources:
+            hic_hal:
+                - source/hic_hal/maxim/max32625/armcc
+    gcc_arm:
+        sources:
+            hic_hal:
+                - source/hic_hal/maxim/max32625/gcc

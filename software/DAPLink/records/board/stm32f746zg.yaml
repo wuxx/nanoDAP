@@ -1,0 +1,6 @@
+common:
+    sources:
+        board:
+            - source/board/stm32f746zg.c
+        family:
+            - source/family/st/stm32f746zg/target.c

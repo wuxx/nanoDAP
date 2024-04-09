@@ -1,0 +1,6 @@
+common:
+    sources:
+        board:
+            - source/board/stm32l476rg.c
+        family:
+            - source/family/st/stm32l476rg/target.c

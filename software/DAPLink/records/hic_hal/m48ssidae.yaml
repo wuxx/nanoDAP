@@ -1,0 +1,55 @@
+common:
+    target:
+        - m485sidae
+    core:
+        - Cortex-M4F
+    macros:
+        - INTERFACE_M48SSIDAE
+        - DAPLINK_HIC_ID=0x97969921  # DAPLINK_HIC_ID_M48SSIDAE
+        - OS_CLOCK=192000000
+        - DAPLINK_IF
+    includes:
+        - source/hic_hal/nuvoton/m48ssidae
+        - source/hic_hal/nuvoton/m48ssidae/CMSIS/Include
+        - source/hic_hal/nuvoton/m48ssidae/Device/Nuvoton/M480/Include
+        - source/hic_hal/nuvoton/m48ssidae/StdDriver/inc
+    sources:
+        hic_hal:
+            - source/hic_hal/nuvoton/m48ssidae
+            - source/hic_hal/nuvoton/m48ssidae/Device/Nuvoton/M480/Source
+            - source/hic_hal/nuvoton/m48ssidae/StdDriver/src
+
+tool_specific:
+    uvision:
+        misc:
+            asm_flags:
+                - -I../../../source/daplink
+                - -I../../../source/hic_hal/nuvoton/m48ssidae
+            ld_flags:
+                - --predefine="-I..\..\..\source\hic_hal\nuvoton\m48ssidae"
+        sources:
+            hic_hal:
+                - source/hic_hal/nuvoton/m48ssidae/armcc
+    armcc:
+        misc:
+            asm_flags:
+                - --no_unaligned_access
+                - -I../../../source/daplink
+                - -I../../../source/hic_hal/nuvoton/m48ssidae
+            c_flags:
+                - --no_unaligned_access
+        sources:
+            hic_hal:
+                - source/hic_hal/nuvoton/m48ssidae/armcc
+    armclang:
+        misc:
+            asm_flags:
+                - -I../../../source/daplink
+                - -I../../../source/hic_hal/nuvoton/m48ssidae
+        sources:
+            hic_hal:
+                - source/hic_hal/nuvoton/m48ssidae/armcc
+    gcc_arm:
+        sources:
+            hic_hal:
+                - source/hic_hal/nuvoton/m48ssidae/gcc

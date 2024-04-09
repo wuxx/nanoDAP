@@ -1,0 +1,6 @@
+common:
+    sources:
+        board:
+            - source/board/ublox_evk_odin_w2.c
+        family:
+            - source/family/st/stm32f439zi/target.c

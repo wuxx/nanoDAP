@@ -1,0 +1,6 @@
+common:
+    sources:
+        board:
+            - source/board/xDot-L151.c
+        family:
+            - source/family/st/xDot-L151/target.c

@@ -1,0 +1,47 @@
+name: Build DAPLink (Windows)
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2019
+    strategy:
+      matrix:
+        gcc: ['10.3-2021.10']
+
+    steps:
+    - name: Install Arm GNU Toolchain (arm-none-eabi-gcc)
+      uses: carlosperate/arm-none-eabi-gcc-action@v1
+      with:
+        release: ${{ matrix.gcc }}
+
+    - name: Cache Python modules
+      uses: actions/cache@v3
+      with:
+        path: ~\AppData\Local\pip\Cache
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Checkout source files
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Install Python module
+      run:  |
+        pip install -r requirements.txt
+
+    - name: Compile
+      run:  |
+        arm-none-eabi-gcc -v
+        python tools/progen_compile.py -t cmake_gcc_arm -g mingw-make --release --parallel -v
+      shell: cmd
+
+    - name: Upload test artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: firmware-dev-${{github.run_number}}
+        path: |
+          firmware*/*
+          !firmware*/*.zip

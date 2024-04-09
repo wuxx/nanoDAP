@@ -1,0 +1,306 @@
+diff --git a/source/daplink/cmsis-dap/DAP.c b/source/daplink/cmsis-dap/DAP.c
+index 64451f61..3b637391 100644
+--- a/source/daplink/cmsis-dap/DAP.c
++++ b/source/daplink/cmsis-dap/DAP.c
+@@ -1816,6 +1816,19 @@ uint32_t DAP_ExecuteCommand(const uint8_t *request, uint8_t *response) {
+   return DAP_ProcessCommand(request, response);
+ }
+ 
++void set_target_soft_reset()
++{
++#if 1
++	if (DAP_Data.debug_port == DAP_PORT_SWD) {
++			swd_set_target_soft_reset();
++	}
++#endif
++#if 0
++ else if {DAP_Data.debug_port = DAP_PORT_JTAG} {
++	}
++#endif
++
++}
+ 
+ // Setup DAP
+ void DAP_Setup(void) {
+diff --git a/source/daplink/drag-n-drop/vfs_user.c b/source/daplink/drag-n-drop/vfs_user.c
+index 701ba829..33bf5335 100644
+--- a/source/daplink/drag-n-drop/vfs_user.c
++++ b/source/daplink/drag-n-drop/vfs_user.c
+@@ -517,6 +517,7 @@ static uint32_t read_file_need_bl_txt(uint32_t sector_offset, uint8_t *data, uin
+ #define LOCAL_MODS ""
+ #endif
+ 
++#define BUILD_TIME "Build Time: " __DATE__ " " __TIME__ "\r\n"
+ static uint32_t update_details_txt_file(uint8_t *buf, uint32_t size, uint32_t start)
+ {
+     uint32_t pos = 0;
+@@ -525,6 +526,9 @@ static uint32_t update_details_txt_file(uint8_t *buf, uint32_t size, uint32_t st
+         "# DAPLink Firmware - see https://daplink.io\r\n"
+         // Build ID
+         "Build ID: " GIT_DESCRIPTION " (" COMPILER_DESCRIPTION LOCAL_MODS ")\r\n");
++    pos += util_write_string_in_region(buf, size, start, pos, "# DAPLink Firmware by MuseLab - see muselab-tech.com\r\n");
++	pos += util_write_string_in_region(buf, size, start, pos, BUILD_TIME);
++		
+     // Unique ID
+     pos += expand_string_in_region(buf, size, start, pos, "Unique ID: @U\r\n");
+     // HIC ID
+diff --git a/source/daplink/interface/swd_host.c b/source/daplink/interface/swd_host.c
+index 6b10ccb2..c06f12d5 100644
+--- a/source/daplink/interface/swd_host.c
++++ b/source/daplink/interface/swd_host.c
+@@ -1031,6 +1031,10 @@ uint8_t swd_set_target_state_hw(target_state_t state)
+     return 1;
+ }
+ 
++void swd_set_target_soft_reset()
++{
++    swd_write_word(NVIC_AIRCR, VECTKEY | 0x7);
++}
+ uint8_t swd_set_target_state_sw(target_state_t state)
+ {
+     uint32_t val;
+diff --git a/source/hic_hal/stm32/stm32f103xb/DAP_config.h b/source/hic_hal/stm32/stm32f103xb/DAP_config.h
+index 34013e77..17c28432 100644
+--- a/source/hic_hal/stm32/stm32f103xb/DAP_config.h
++++ b/source/hic_hal/stm32/stm32f103xb/DAP_config.h
+@@ -57,11 +57,11 @@ This information includes:
+ 
+ /// Indicate that JTAG communication mode is available at the Debug Port.
+ /// This information is returned by the command \ref DAP_Info as part of <b>Capabilities</b>.
+-#define DAP_JTAG                0               ///< JTAG Mode: 1 = available, 0 = not available.
++#define DAP_JTAG                1               ///< JTAG Mode: 1 = available, 0 = not available.
+ 
+ /// Configure maximum number of JTAG devices on the scan chain connected to the Debug Access Port.
+ /// This setting impacts the RAM requirements of the Debug Unit. Valid range is 1 .. 255.
+-#define DAP_JTAG_DEV_CNT        0               ///< Maximum number of JTAG devices on scan chain
++#define DAP_JTAG_DEV_CNT        8               ///< Maximum number of JTAG devices on scan chain
+ 
+ /// Default communication mode on the Debug Access Port.
+ /// Used for the command \ref DAP_Connect when Port Default mode is selected.
+@@ -86,7 +86,7 @@ This information includes:
+ /// This configuration settings is used to optimize the communication performance with the
+ /// debugger and depends on the USB peripheral. For devices with limited RAM or USB buffer the
+ /// setting can be reduced (valid range is 1 .. 255). Change setting to 4 for High-Speed USB.
+-#define DAP_PACKET_COUNT       4              ///< Buffers: 64 = Full-Speed, 4 = High-Speed.
++#define DAP_PACKET_COUNT       32              ///< Buffers: 64 = Full-Speed, 4 = High-Speed.
+ 
+ /// Indicate that UART Serial Wire Output (SWO) trace is available.
+ /// This information is returned by the command \ref DAP_Info as part of <b>Capabilities</b>.
+@@ -240,7 +240,26 @@ Configures the DAP Hardware I/O pins for JTAG mode:
+ __STATIC_INLINE void PORT_JTAG_SETUP(void)
+ {
+ #if (DAP_JTAG != 0)
++    // TCK output
++    pin_out_init(JTAG_TCK_PIN_PORT, JTAG_TCK_PIN_Bit);
++    JTAG_TCK_PIN_PORT->BSRR = JTAG_TCK_PIN;
++    // TMS output
++    pin_out_init(JTAG_TMS_PIN_PORT, JTAG_TMS_PIN_Bit);
++    JTAG_TMS_PIN_PORT->BSRR = JTAG_TMS_PIN;
+ 
++	  // TDI output
++    pin_out_init(JTAG_TDI_PIN_PORT, JTAG_TDI_PIN_Bit);
++    JTAG_TDI_PIN_PORT->BSRR = JTAG_TDI_PIN;
++
++		// TDO input
++    pin_in_init(JTAG_TDO_PIN_PORT, JTAG_TDO_PIN_Bit, 1);
++
++    pin_in_init(SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, 1);
++	
++    // Set RESET HIGH
++    pin_out_od_init(nRESET_PIN_PORT, nRESET_PIN_Bit);//TODO - fix reset logic
++    nRESET_PIN_PORT->BSRR = nRESET_PIN;
++	
+ #endif
+ }
+ 
+@@ -374,7 +393,11 @@ __STATIC_FORCEINLINE void PIN_SWDIO_OUT_DISABLE(void)
+ */
+ __STATIC_FORCEINLINE uint32_t PIN_TDI_IN(void)
+ {
+-    return (0);   // Not available
++#if ( DAP_JTAG != 0 )
++    return (JTAG_TDI_PIN_PORT->IDR >> JTAG_TDI_PIN_Bit) & 1;
++#else
++		return 0;
++#endif
+ }
+ 
+ /** TDI I/O pin: Set Output.
+@@ -382,7 +405,12 @@ __STATIC_FORCEINLINE uint32_t PIN_TDI_IN(void)
+ */
+ __STATIC_FORCEINLINE void PIN_TDI_OUT(uint32_t bit)
+ {
+-    ;             // Not available
++#if ( DAP_JTAG != 0 )
++	  if (bit & 1)
++        JTAG_TDI_PIN_PORT->BSRR = JTAG_TDI_PIN;
++    else
++        JTAG_TDI_PIN_PORT->BRR = JTAG_TDI_PIN;
++#endif	
+ }
+ 
+ 
+@@ -393,7 +421,11 @@ __STATIC_FORCEINLINE void PIN_TDI_OUT(uint32_t bit)
+ */
+ __STATIC_FORCEINLINE uint32_t PIN_TDO_IN(void)
+ {
+-    return (0);   // Not available
++#if ( DAP_JTAG != 0 )
++    return (JTAG_TDO_PIN_PORT->IDR >> JTAG_TDO_PIN_Bit) & 1;
++#else
++		return 0;
++#endif
+ }
+ 
+ 
+@@ -433,9 +465,10 @@ __STATIC_FORCEINLINE uint32_t PIN_nRESET_IN(void)
+            - 1: release device hardware reset.
+ */
+ // TODO - sw specific implementation should be created
+-
++extern void set_target_soft_reset(void);
+ __STATIC_FORCEINLINE void     PIN_nRESET_OUT(uint32_t bit)
+ {
++		set_target_soft_reset();
+     if (bit & 1)
+         nRESET_PIN_PORT->BSRR = nRESET_PIN;
+     else
+@@ -463,9 +496,9 @@ It is recommended to provide the following LEDs for status indication:
+ __STATIC_INLINE void LED_CONNECTED_OUT(uint32_t bit)
+ {
+     if (bit & 1)
+-        CONNECTED_LED_PORT->BRR = CONNECTED_LED_PIN; // LED on
++        CONNECTED_LED_PORT->BSRR = CONNECTED_LED_PIN; // LED on
+     else
+-        CONNECTED_LED_PORT->BSRR = CONNECTED_LED_PIN;// LED off
++        CONNECTED_LED_PORT->BRR = CONNECTED_LED_PIN;// LED off
+ }
+ 
+ /** Debug Unit: Set status Target Running LED.
+@@ -475,7 +508,10 @@ __STATIC_INLINE void LED_CONNECTED_OUT(uint32_t bit)
+ */
+ __STATIC_INLINE void LED_RUNNING_OUT(uint32_t bit)
+ {
+-    ;             // Not available
++    if (bit & 1)
++        RUNNING_LED_PORT->BSRR = RUNNING_LED_PIN; // LED on
++    else
++        RUNNING_LED_PORT->BRR = RUNNING_LED_PIN;// LED off
+ }
+ 
+ ///@}
+@@ -540,7 +576,7 @@ __STATIC_INLINE void DAP_SETUP(void)
+     nRESET_PIN_PORT->BSRR = nRESET_PIN;
+ 
+     pin_out_init(CONNECTED_LED_PORT, CONNECTED_LED_PIN_Bit);
+-    CONNECTED_LED_PORT->BSRR = CONNECTED_LED_PIN;
++    CONNECTED_LED_PORT->BRR = CONNECTED_LED_PIN;
+ }
+ 
+ /** Reset Target Device with custom specific I/O pin or command sequence.
+diff --git a/source/hic_hal/stm32/stm32f103xb/IO_Config.h b/source/hic_hal/stm32/stm32f103xb/IO_Config.h
+index de9a4667..fd2f43ba 100644
+--- a/source/hic_hal/stm32/stm32f103xb/IO_Config.h
++++ b/source/hic_hal/stm32/stm32f103xb/IO_Config.h
+@@ -29,12 +29,12 @@
+ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_STM32F103XB);
+ 
+ //USB control pin
+-#define USB_CONNECT_PORT_ENABLE()    __HAL_RCC_GPIOA_CLK_ENABLE()
+-#define USB_CONNECT_PORT_DISABLE()   __HAL_RCC_GPIOA_CLK_DISABLE()
+-#define USB_CONNECT_PORT             GPIOA
++#define USB_CONNECT_PORT_ENABLE()    __HAL_RCC_GPIOB_CLK_ENABLE()
++#define USB_CONNECT_PORT_DISABLE()   __HAL_RCC_GPIOB_CLK_DISABLE()
++#define USB_CONNECT_PORT             GPIOB
+ #define USB_CONNECT_PIN              GPIO_PIN_15
+-#define USB_CONNECT_ON()             (USB_CONNECT_PORT->BSRR = USB_CONNECT_PIN)
+-#define USB_CONNECT_OFF()            (USB_CONNECT_PORT->BRR  = USB_CONNECT_PIN)
++#define USB_CONNECT_ON()             (USB_CONNECT_PORT->BRR = USB_CONNECT_PIN)
++#define USB_CONNECT_OFF()            (USB_CONNECT_PORT->BSRR  = USB_CONNECT_PIN)
+ 
+ //Connected LED
+ #define CONNECTED_LED_PORT           GPIOB
+@@ -43,8 +43,8 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_STM32F103XB);
+ 
+ //When bootloader, disable the target port(not used)
+ #define POWER_EN_PIN_PORT            GPIOB
+-#define POWER_EN_PIN                 GPIO_PIN_15
+-#define POWER_EN_Bit                 15
++#define POWER_EN_PIN                 GPIO_PIN_8
++#define POWER_EN_Bit                 8
+ 
+ // nRESET OUT Pin
+ #define nRESET_PIN_PORT              GPIOB
+@@ -64,6 +64,28 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_STM32F103XB);
+ #define SWDIO_IN_PIN                 GPIO_PIN_12
+ #define SWDIO_IN_PIN_Bit             12
+ 
++
++// JTAG-TCK
++#define JTAG_TCK_PIN_PORT            SWCLK_TCK_PIN_PORT
++#define JTAG_TCK_PIN                 SWCLK_TCK_PIN
++#define JTAG_TCK_PIN_Bit             SWCLK_TCK_PIN_Bit
++
++// JTAG-TMS
++#define JTAG_TMS_PIN_PORT            SWDIO_OUT_PIN_PORT
++#define JTAG_TMS_PIN                 SWDIO_OUT_PIN
++#define JTAG_TMS_PIN_Bit             SWDIO_OUT_PIN_Bit
++
++// JTAG-TDI
++#define JTAG_TDI_PIN_PORT            GPIOA
++#define JTAG_TDI_PIN                 GPIO_PIN_7
++#define JTAG_TDI_PIN_Bit             7
++
++// JTAG-TDO
++#define JTAG_TDO_PIN_PORT            GPIOA
++#define JTAG_TDO_PIN                 GPIO_PIN_5
++#define JTAG_TDO_PIN_Bit             5
++
++
+ //LEDs
+ //USB status LED
+ #define RUNNING_LED_PORT             GPIOA
+diff --git a/source/hic_hal/stm32/stm32f103xb/gpio.c b/source/hic_hal/stm32/stm32f103xb/gpio.c
+index 376cf358..026a2655 100644
+--- a/source/hic_hal/stm32/stm32f103xb/gpio.c
++++ b/source/hic_hal/stm32/stm32f103xb/gpio.c
+@@ -139,7 +139,7 @@ void gpio_init(void)
+     GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_PP;
+     HAL_GPIO_Init(RUNNING_LED_PORT, &GPIO_InitStructure);
+ 
+-    HAL_GPIO_WritePin(CONNECTED_LED_PORT, CONNECTED_LED_PIN, GPIO_PIN_SET);
++    HAL_GPIO_WritePin(CONNECTED_LED_PORT, CONNECTED_LED_PIN, GPIO_PIN_RESET);
+     GPIO_InitStructure.Pin = CONNECTED_LED_PIN;
+     GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH;
+     GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_PP;
+diff --git a/source/hic_hal/stm32/stm32f103xb/usb_config.c b/source/hic_hal/stm32/stm32f103xb/usb_config.c
+index 354b57ae..2865d295 100644
+--- a/source/hic_hal/stm32/stm32f103xb/usb_config.c
++++ b/source/hic_hal/stm32/stm32f103xb/usb_config.c
+@@ -92,7 +92,7 @@
+ #define USBD_STRDESC_LANGID         0x0409
+ #define USBD_STRDESC_MAN            L"Arm"
+ #ifndef USB_PROD_STR
+-#define USBD_STRDESC_PROD           L"DAPLink CMSIS-DAP"
++#define USBD_STRDESC_PROD           L"CMSIS-DAP-MuseLab"
+ #else
+ #define _TOWIDE(x)                   L ## #x
+ #define TOWIDE(x)                   _TOWIDE(x)
+@@ -173,7 +173,7 @@
+ #define USBD_HID_HS_ENABLE          0
+ #define USBD_HID_HS_WMAXPACKETSIZE  64
+ #define USBD_HID_HS_BINTERVAL       6
+-#define USBD_HID_STRDESC            L"CMSIS-DAP v1"
++#define USBD_HID_STRDESC            L"CMSIS-DAP-v1-MuseLab"
+ #define USBD_WEBUSB_STRDESC         L"WebUSB: CMSIS-DAP"
+ #define USBD_HID_INREPORT_NUM       1
+ #define USBD_HID_OUTREPORT_NUM      1
+@@ -404,7 +404,7 @@
+ #define USBD_BULK_WMAXPACKETSIZE     64
+ #define USBD_BULK_HS_ENABLE          0
+ #define USBD_BULK_HS_WMAXPACKETSIZE  512
+-#define USBD_BULK_STRDESC            L"CMSIS-DAP v2"
++#define USBD_BULK_STRDESC            L"CMSIS-DAP-v2-MuseLab"
+ 
+ 
+ /* USB Device Calculations ---------------------------------------------------*/

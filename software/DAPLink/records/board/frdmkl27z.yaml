@@ -1,0 +1,7 @@
+common:
+    sources:
+        board:
+            - source/board/frdmkl27z.c
+        family:
+            - source/family/freescale/kl27z/target.c
+            - source/family/freescale/target_reset_Lseries.c
